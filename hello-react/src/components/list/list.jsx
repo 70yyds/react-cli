@@ -14,26 +14,22 @@ class list extends Component {
   };
   //checkbox事件
   handleCheck = (item) => {
-    return () => {
-      item.isdo = !item.isdo;
+    return (event) => {
+      this.props.check(item, event.target.checked);
     };
   };
   //删除事件
   handleRemove = (item) => {
     return () => {
-      const dolist = this.props.todos;
-      const arr = dolist.filter((e, j) => {
-        return e.id !== item.id;
-      });
-      this.props.delete(arr);
+      this.props.remove(item);
     };
   };
   render() {
-    const dolist = this.props.todos;
+    const { todos } = this.props;
     const { isHover, currentId } = this.state;
     return (
       <ul className="todo-main">
-        {dolist.map((item) => {
+        {todos.map((item) => {
           return (
             <li
               key={item.id}
@@ -47,8 +43,8 @@ class list extends Component {
               <label>
                 <input
                   type="checkbox"
-                  defaultChecked={item.isdo}
-                  onClick={this.handleCheck(item)}
+                  checked={item.isdo}
+                  onChange={this.handleCheck(item)}
                 />
                 <span>{item.name}</span>
               </label>

@@ -23,7 +23,7 @@ export default class App extends Component {
       },
     ],
   };
-  //添加后更新视图
+  //添加
   add = (item) => {
     const { todos } = this.state;
     //1 unshift在前方添加
@@ -33,8 +33,39 @@ export default class App extends Component {
     const newtodo = [item, ...todos];
     this.setState({ todos: newtodo });
   };
-  //更新视图
-  remove = (arr) => {
+  //删除
+  remove = (item) => {
+    const { todos } = this.state;
+    const arr = todos.filter((e, j) => {
+      return e.id !== item.id;
+    });
+    this.setState({ todos: arr });
+  };
+  removeAll = () => {
+    const { todos } = this.state;
+    let arr = todos.filter((item, index) => {
+      return !item.isdo;
+    });
+    this.setState({ todos: arr });
+  };
+  //选中
+  check = (item, status) => {
+    const { todos } = this.state;
+    const arr = todos.map((e) => {
+      if (e.id === item.id) {
+        return { ...e, isdo: status };
+      } else {
+        return e;
+      }
+    });
+    this.setState({ todos: arr });
+  };
+  //全选
+  checkAll = (status) => {
+    const { todos } = this.state;
+    const arr = todos.map((item) => {
+      return { ...item, isdo: status };
+    });
     this.setState({ todos: arr });
   };
   render() {
@@ -43,8 +74,12 @@ export default class App extends Component {
       <div className="todo-container">
         <div className="todo-wrap">
           <Header add={this.add} />
-          <List todos={todos} delete={this.remove} />
-          <Footer todos={todos} delete={this.remove} />
+          <List todos={todos} remove={this.remove} check={this.check} />
+          <Footer
+            todos={todos}
+            checkAll={this.checkAll}
+            removeAll={this.removeAll}
+          />
         </div>
       </div>
     );
