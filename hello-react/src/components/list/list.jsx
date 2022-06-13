@@ -1,68 +1,46 @@
 import React, { Component } from "react";
 import "./list.css";
-class list extends Component {
-  state = { isHover: false, currentId: null };
-  handleHover = (flag, id) => {
-    return () => {
-      this.setState({ isHover: flag, currentId: id });
-    };
-  };
-  handleLeave = (flag) => {
-    return () => {
-      this.setState({ isHover: flag });
-    };
-  };
-  //checkbox事件
-  handleCheck = (item) => {
-    return (event) => {
-      this.props.check(item, event.target.checked);
-    };
-  };
-  //删除事件
-  handleRemove = (item) => {
-    return () => {
-      this.props.remove(item);
-    };
-  };
+export default class list extends Component {
   render() {
-    const { todos } = this.props;
-    const { isHover, currentId } = this.state;
+    const listData = [
+      {
+        id: 1,
+        jsUrl: "https://github.com/reactjs",
+        imgUrl: "https://avatars.githubusercontent.com/u/6412038?v=3",
+        name: "reactjs",
+      },
+      {
+        id: 2,
+        jsUrl: "https://github.com/reactjs",
+        imgUrl: "https://avatars.githubusercontent.com/u/6412038?v=3",
+        name: "reactjs",
+      },
+      {
+        id: 3,
+        jsUrl: "https://github.com/reactjs",
+        imgUrl: "https://avatars.githubusercontent.com/u/6412038?v=3",
+        name: "reactjs",
+      },
+      {
+        id: 4,
+        jsUrl: "https://github.com/reactjs",
+        imgUrl: "https://avatars.githubusercontent.com/u/6412038?v=3",
+        name: "reactjs",
+      },
+    ];
     return (
-      <ul className="todo-main">
-        {todos.map((item) => {
+      <div className="row">
+        {listData.map((item, index) => {
           return (
-            <li
-              key={item.id}
-              onMouseEnter={this.handleHover(true, item.id)}
-              onMouseLeave={this.handleLeave(false)}
-              style={{
-                backgroundColor:
-                  item.id === currentId && isHover ? "#ddd" : "white",
-              }}
-            >
-              <label>
-                <input
-                  type="checkbox"
-                  checked={item.isdo}
-                  onChange={this.handleCheck(item)}
-                />
-                <span>{item.name}</span>
-              </label>
-              <button
-                onClick={this.handleRemove(item)}
-                className="btn btn-danger"
-                style={{
-                  display: item.id === currentId && isHover ? "block" : "none",
-                }}
-              >
-                删除
-              </button>
-            </li>
+            <div className="card" key={item.id}>
+              <a href={item.jsUrl} target="_blank" rel="noreferrer">
+                <img src={item.imgUrl} style={{ width: "100px" }} alt="" />
+              </a>
+              <p className="card-text">{item.name}</p>
+            </div>
           );
         })}
-      </ul>
+      </div>
     );
   }
 }
-
-export default list;
